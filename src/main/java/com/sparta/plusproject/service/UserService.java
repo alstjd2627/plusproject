@@ -33,10 +33,9 @@ public class UserService {
 
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
-        String email = requestDto.getEmail();
 
 
-        User user = new User(username, password, email);
+        User user = new User(username, password);
         // 사용자 등록
         userRepository.save(user);
         return new SignupResponseDto(user);

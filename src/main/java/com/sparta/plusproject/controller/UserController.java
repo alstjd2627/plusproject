@@ -22,7 +22,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users/signup")
-    public SignupResponseDto signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
-        return userService.signup(requestDto, bindingResult);
+    public String signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
+        userService.signup(requestDto, bindingResult);
+        return "index";
     }
 }
