@@ -39,6 +39,10 @@ public class UserService {
             throw new Exception("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
         }
 
+        if(userRepository.findByUsername(requestDto.getUsername()).isPresent()){
+            throw new Exception("닉네임이 중복됩니다.");
+        }
+
 
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
