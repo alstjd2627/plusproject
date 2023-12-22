@@ -22,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users/signup")
-    public String signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
+    public String signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) throws Exception {
         userService.signup(requestDto, bindingResult);
         return "index";
     }

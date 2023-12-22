@@ -22,7 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public SignupResponseDto signup(SignupRequestDto requestDto, BindingResult bindingResult) {
+    public SignupResponseDto signup(SignupRequestDto requestDto, BindingResult bindingResult) throws Exception {
         // Validation 예외처리
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         if(fieldErrors.size() > 0) {
@@ -30,9 +30,19 @@ public class UserService {
                 log.error(fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage());
             }
         }
+        if(requestDto.getPassword().contains(requestDto.getUsername())
+                || requestDto.getRepassword().contains(requestDto.getUsername())){
+            throw new Exception("비밀번호에 닉네임이 포함되어 있습니다.");
+        }
+
+        if(!requestDto.getRepassword().equals(requestDto.getPassword())){
+            throw new Exception("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+        }
+
 
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
+
 
 
         User user = new User(username, password);
