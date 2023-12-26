@@ -29,13 +29,4 @@ public class UserController {
         }
     }
 
-    @PostMapping("/users/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDto requestDto){
-        try{
-            userService.login(requestDto);
-            return ResponseEntity.ok("로그인 성공");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
 }
