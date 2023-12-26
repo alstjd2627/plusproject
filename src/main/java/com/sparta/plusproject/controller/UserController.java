@@ -1,5 +1,6 @@
 package com.sparta.plusproject.controller;
 
+import com.sparta.plusproject.dto.LoginRequestDto;
 import com.sparta.plusproject.dto.SignupRequestDto;
 import com.sparta.plusproject.service.UserService;
 import jakarta.validation.Valid;
@@ -23,6 +24,16 @@ public class UserController {
         try{
             userService.signup(requestDto, bindingResult);
             return ResponseEntity.ok("회원가입 성공");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/users/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequestDto requestDto){
+        try{
+            userService.login(requestDto);
+            return ResponseEntity.ok("로그인 성공");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

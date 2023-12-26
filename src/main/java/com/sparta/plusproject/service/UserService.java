@@ -1,5 +1,6 @@
 package com.sparta.plusproject.service;
 
+import com.sparta.plusproject.dto.LoginRequestDto;
 import com.sparta.plusproject.dto.SignupRequestDto;
 import com.sparta.plusproject.dto.SignupResponseDto;
 import com.sparta.plusproject.entity.User;
@@ -12,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -53,6 +53,19 @@ public class UserService {
         // 사용자 등록
         userRepository.save(user);
         return new SignupResponseDto(user);
+    }
+
+    public void login(LoginRequestDto requestDto) {
+        String username = requestDto.getUsername();
+        String password = requestDto.getPassword();
+
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
+        );
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
     }
 }
 
