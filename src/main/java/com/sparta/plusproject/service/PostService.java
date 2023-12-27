@@ -9,11 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import com.sparta.plusproject.dto.PostResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,5 +52,16 @@ public class PostService {
         }
         post.update(postRequestDto);
         return new PostResponseDto(post);
+    }
+
+    public ResponseEntity<String> deletePost(User user, Long id) throws Exception {
+        Post post = repository.findById(id).orElseThrow( () ->
+                new Exception("존재하지 않는 글입니다."));
+
+        if(!user.getId().equals(post.getUser().getId())){
+            throw new Exception("글 작성자가 아닙니다.");
+        }
+        repository.delete(post);
+        return ResponseEntity.ok("삭제 성공");
     }
 }

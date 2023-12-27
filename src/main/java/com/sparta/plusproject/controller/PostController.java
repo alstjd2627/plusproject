@@ -51,4 +51,9 @@ public class PostController{
         }
     }
 
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<String> deletePost(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                             @PathVariable Long postId) throws Exception {
+        return postService.deletePost(userDetails.getUser(), postId);
+    }
 }
