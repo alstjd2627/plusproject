@@ -27,6 +27,12 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Post> posts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments  = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<PostLike> postLikes = new ArrayList<>();
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;

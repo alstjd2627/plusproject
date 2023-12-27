@@ -26,9 +26,9 @@ public class PostController{
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<String> createPost(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody PostRequestDto requestDto, HttpServletResponse res){
+    public ResponseEntity<String> createPost(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody PostRequestDto requestDto){
         try{
-            postService.createPost(userDetails,requestDto, res);
+            postService.createPost(userDetails,requestDto);
             return ResponseEntity.ok("글 작성 성공");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

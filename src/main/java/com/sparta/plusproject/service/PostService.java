@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository repository;
 
-    public void createPost(@AuthenticationPrincipal UserDetailsImpl userDetails,PostRequestDto requestDto, HttpServletResponse res) throws Exception {
+    public void createPost(@AuthenticationPrincipal UserDetailsImpl userDetails,PostRequestDto requestDto) throws Exception {
         String title = requestDto.getTitle();
         String content = requestDto.getContent();
         User user = userDetails.getUser();
