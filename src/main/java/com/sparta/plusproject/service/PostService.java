@@ -2,11 +2,14 @@ package com.sparta.plusproject.service;
 
 import com.sparta.plusproject.dto.PostRequestDto;
 import com.sparta.plusproject.entity.Post;
+import com.sparta.plusproject.entity.User;
 import com.sparta.plusproject.repository.PostRepository;
+import com.sparta.plusproject.security.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import com.sparta.plusproject.dto.PostResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -19,13 +22,14 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository repository;
 
-    public void createPost(PostRequestDto requestDto, HttpServletResponse res) throws Exception {
+    public void createPost(@AuthenticationPrincipal UserDetailsImpl userDetails,PostRequestDto requestDto, HttpServletResponse res) throws Exception {
         String title = requestDto.getTitle();
         String content = requestDto.getContent();
+        User user = userDetails.getUser();
 
         System.out.println(title.length());
         System.out.println(content);
-        Post post = new Post(title,content);
+        Post post = new Post(user,title,content);
         repository.save(post);
     }
 

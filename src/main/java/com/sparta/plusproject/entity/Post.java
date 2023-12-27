@@ -21,7 +21,12 @@ public class Post extends Timestamped {
     @Column(nullable = false, length = 5000)
     private String content;
 
-    public Post(String title, String content) {
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public Post(User user, String title, String content) {
+        this.user = user;
         this.title = title;
         this.content = content;
     }

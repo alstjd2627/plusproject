@@ -2,12 +2,14 @@ package com.sparta.plusproject.controller;
 
 import com.sparta.plusproject.dto.PostRequestDto;
 import com.sparta.plusproject.dto.PostResponseDto;
+import com.sparta.plusproject.security.UserDetailsImpl;
 import com.sparta.plusproject.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +28,9 @@ public class PostController{
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<String> createPost(@RequestBody PostRequestDto requestDto, HttpServletResponse res){
+    public ResponseEntity<String> createPost(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody PostRequestDto requestDto, HttpServletResponse res){
         try{
-            postService.createPost(requestDto, res);
+            postService.createPost(userDetails,requestDto, res);
             return ResponseEntity.ok("글 작성 성공");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -39,4 +41,5 @@ public class PostController{
     public ResponseEntity<List<PostResponseDto>> getAllPosts(){
         return ResponseEntity.ok(postService.getAllPosts());
     }
+
 }
