@@ -1,10 +1,14 @@
 package com.sparta.plusproject.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "postLikes")
+@Getter
+@AllArgsConstructor
 @NoArgsConstructor
 public class PostLike {
     @Id

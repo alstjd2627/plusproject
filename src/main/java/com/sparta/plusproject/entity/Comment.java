@@ -1,5 +1,6 @@
 package com.sparta.plusproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sparta.plusproject.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,10 +21,12 @@ public class Comment extends Timestamped {
     private String content;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 

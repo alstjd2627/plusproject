@@ -1,5 +1,6 @@
 package com.sparta.plusproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sparta.plusproject.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class Post extends Timestamped {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+
     @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
 
@@ -40,6 +42,7 @@ public class Post extends Timestamped {
         this.title = title;
         this.content = content;
     }
+
 
     public void update(PostRequestDto postRequestDto) {
         this.title = postRequestDto.getTitle();

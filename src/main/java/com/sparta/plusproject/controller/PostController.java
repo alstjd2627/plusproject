@@ -40,6 +40,11 @@ public class PostController{
         return ResponseEntity.ok(postService.getAllPosts());
     }
 
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostResponseDto> getPost(@PathVariable Long postId) throws Exception {
+        return ResponseEntity.ok(postService.getPost(postId));
+    }
+
     @PatchMapping("/{postId}")
     public ResponseEntity<String> updatePost(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                       @PathVariable Long postId, @RequestBody PostRequestDto postRequestDto) throws Exception {
