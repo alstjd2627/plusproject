@@ -8,14 +8,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Fetch;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,6 +38,17 @@ public class PostController{
     @GetMapping
     public ResponseEntity<List<PostResponseDto>> getAllPosts(){
         return ResponseEntity.ok(postService.getAllPosts());
+    }
+
+    @PatchMapping("/{postId}")
+    public ResponseEntity<String> updatePost(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                      @PathVariable Long postId, @RequestBody PostRequestDto postRequestDto) throws Exception {
+        try{
+            postService.updatePost(userDetails.getUser(), postId, postRequestDto);
+            return ResponseEntity.ok("수정 성공");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }

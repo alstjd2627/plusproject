@@ -1,5 +1,6 @@
 package com.sparta.plusproject.entity;
 
+import com.sparta.plusproject.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +30,11 @@ public class Post extends Timestamped {
         this.user = user;
         this.title = title;
         this.content = content;
+    }
+
+    public void update(PostRequestDto postRequestDto) {
+        this.title = postRequestDto.getTitle();
+        this.content = postRequestDto.getContent();
     }
 }
 

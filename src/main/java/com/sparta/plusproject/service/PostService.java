@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -38,5 +39,17 @@ public class PostService {
                 .stream()
                 .map(PostResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public PostResponseDto updatePost(User user, Long id, PostRequestDto postRequestDto) throws Exception {
+        Post post = repository.findById(id).orElseThrow( () ->
+                new Exception("존재하지 않는 글입니다."));
+
+        if(!user.getId().equals(post.getUser().getId())){
+            throw new Exception("글 작성자가 아닙니다.");
+        }
+        post.update(postRequestDto);
+        return new PostResponseDto(post);
     }
 }
